@@ -9,9 +9,9 @@ El trie ecxiste y es válido y la palabra no es null.
 ### Postcondiciones:
 Devuelve una Entry<T> asociada si la palabra existe y null si no existe. No modifica el trie original.
 ### Pseudocódigo:
-Trie: 
-   func buscar(palabra):
-    if raiz = null: //si esta vacío no busco nda
+-Trie: 
+-  func buscar(palabra):
+-    if raiz = null: //si esta vacío no busco nda
         return null
     end if
     return raiz.buscar(palabra)
