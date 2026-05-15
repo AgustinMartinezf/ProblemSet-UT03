@@ -12,27 +12,27 @@ Devuelve una Entry<T> asociada si la palabra existe y null si no existe. No modi
 -Trie: 
 -  func buscar(palabra):
 -    if raiz = null: //si esta vacío no busco nda
-        return null
-    end if
-    return raiz.buscar(palabra)
-   end buscar
+-        return null
+-    end if
+-   return raiz.buscar(palabra)
+-   end buscar
 
 NodoTrie:
-  func buscar(palabra)
-    nodoActual ← this
-    for i ← 0 to palabra.length - 1 do //recorremos letra por letra
-        caracter ← palabra[i] //letra actual
-        indice ← caracter - 'a' //convierto la letra en índice
-        if nodoActual.hijos[indice]= null then //si el hijo no existe la palabra no está
-            return null
-        end if
-        nodoActual ←nodoActual.hijos[indice] //avanzamos
-    end for
-    if nodoActual.esPalabra then //si representa una palabra
-        return nueva Entry(palabra,nodoActual.dato) //la devuelvo con dato asociado
-    end if
-    return null
-end buscar
+-  func buscar(palabra)
+-    nodoActual ← this
+-    for i ← 0 to palabra.length - 1 do //recorremos letra por letra
+-        caracter ← palabra[i] //letra actual
+-        indice ← caracter - 'a' //convierto la letra en índice
+-        if nodoActual.hijos[indice]= null then //si el hijo no existe la palabra no está
+-            return null
+-        end if
+-        nodoActual ←nodoActual.hijos[indice] //avanzamos
+-    end for
+-    if nodoActual.esPalabra then //si representa una palabra
+-        return nueva Entry(palabra,nodoActual.dato) //la devuelvo con dato asociado
+-    end if
+-    return null
+-end buscar
 ### Complejidad:
 o(m) siendo m la longitud de la palabra.  
 
