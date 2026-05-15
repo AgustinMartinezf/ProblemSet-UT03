@@ -9,30 +9,32 @@ El trie ecxiste y es válido y la palabra no es null.
 ### Postcondiciones:
 Devuelve una Entry<T> asociada si la palabra existe y null si no existe. No modifica el trie original.
 ### Pseudocódigo:
+```text
 -Trie: 
--  func buscar(palabra):
--    if raiz = null: //si esta vacío no busco nda
--        return null
--    end if
--   return raiz.buscar(palabra)
--   end buscar
+  func buscar(palabra):
+    if raiz = null: //si esta vacío no busco nda
+         return null
+    end if
+   return raiz.buscar(palabra)
+  end buscar
 
 NodoTrie:
--  func buscar(palabra)
--    nodoActual ← this
--    for i ← 0 to palabra.length - 1 do //recorremos letra por letra
--        caracter ← palabra[i] //letra actual
--        indice ← caracter - 'a' //convierto la letra en índice
--        if nodoActual.hijos[indice]= null then //si el hijo no existe la palabra no está
--            return null
--        end if
--        nodoActual ←nodoActual.hijos[indice] //avanzamos
--    end for
--    if nodoActual.esPalabra then //si representa una palabra
--        return nueva Entry(palabra,nodoActual.dato) //la devuelvo con dato asociado
--    end if
--    return null
--end buscar
+  func buscar(palabra)
+    nodoActual ← this
+    for i ← 0 to palabra.length - 1 do //recorremos letra por letra
+        caracter ← palabra[i] //letra actual
+        indice ← caracter - 'a' //convierto la letra en índice
+        if nodoActual.hijos[indice]= null then //si el hijo no existe la palabra no está
+            return null
+        end if
+        nodoActual ←nodoActual.hijos[indice] //avanzamos
+    end for
+    if nodoActual.esPalabra then //si representa una palabra
+        return nueva Entry(palabra,nodoActual.dato) //la devuelvo con dato asociado
+    end if
+    return null
+end buscar
+```
 ### Complejidad:
 o(m) siendo m la longitud de la palabra.  
 
@@ -44,6 +46,7 @@ El trie existe y es válido, el prefijo no es null.
 ### Postcondiciones:
 Retorna una lista con las palabras que comienzan con ese prefijo y el trie se mantiene igual, no se modifica.
 ### Pseudocódigo:
+```text
 Trie:
 func listarPrefijo(prefijo)
     if raiz = null then //si esta vacío no hay palabras 
@@ -80,7 +83,7 @@ proc obtenerPalabras(palabraActual,lista)
         end if
     end for
 end proc
-
+```
 ### Complejidad:
 o(m+n) donde m es la longitud del prefijo mientras que n es la cantidad de nodos recorridos.
 
@@ -92,6 +95,7 @@ El trie debe ser valido y existir, la palabra no debe de ser null.
 ### Postcondiciones: 
 La palabra se agrega al trie, el dato asociado se guarda, retorna true si insertó y false si no.
 ### Pseudocódigo:
+```text
 Trie:
 func insertar(palabra, dato)
     if raiz = null then //si esta vacío creamos la raiz nueva
@@ -118,6 +122,7 @@ func insertar(palabra, dato)
     nodoActual.dato ← dato
     return true
 end insertar
+```
 ### Complejidad: 
 o(m) siendo m la longitud de la palabra
 
@@ -129,6 +134,7 @@ Trie existente y válido, palabra diferente de null.
 ### Postcondiciones:
 La palabra deja de existir en el trie, no se eliminan nodos que pertenezcan a otras palabras.
 ### Pseudocódigo:
+```text
 Trie:
 func eliminar(palabra)
     if raiz = null then //si esta vacío no elimino nada
@@ -159,5 +165,5 @@ func eliminar(palabra, indice)
     end if
     return false
 end eliminar
-
+```
 ### Complejidad: o(m) siendo m la longitud de la palabra.
