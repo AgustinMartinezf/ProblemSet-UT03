@@ -1,18 +1,18 @@
 package main.java.ucu.edu.aed.Implementaciones;
-import java.util.LinkedList;
+
 import java.util.List;
 import java.util.function.Consumer;
 
-import ucu.edu.aed.impl.ListaEnlazada;
+import ucu.edu.aed.Implementaciones.ListaEnlazada;
 import ucu.edu.aed.tda.generic_trie.TNodoGenerico;
 
 public class NodoGenerico<T extends Comparable<T>> implements TNodoGenerico<T> {
 
     private T dato;
-    protected NodoGenerico<T> primerHijo;
-    protected NodoGenerico<T> hermanoDerecho;
+    private TNodoGenerico<T> primerHijo;
+    private TNodoGenerico<T> hermanoDerecho;
 
-    //constructor
+    //ponemos el contructor
     public NodoGenerico(T dato) {
         this.dato = dato;
         this.primerHijo = null;
@@ -21,96 +21,84 @@ public class NodoGenerico<T extends Comparable<T>> implements TNodoGenerico<T> {
 
     @Override
     public boolean agregarHijo(T padre, T hijo) {
-        NodoGenerico<T> nodoPadre =this.buscar(padre);
-        if (nodoPadre == null) { // si no hay padre no podemos agregar hijo
-            return false;
+        NodoGenerico<T> nodoPadre = this.buscar(padre);
+        if (nodoPadre == null) {
+            return false; // no encontramos el padre, no podemos entonces agregar un hijo
         }
-
-        NodoGenerico<T> nuevoHijo =new NodoGenerico<>(hijo);
-
-        if (nodoPadre.primerHijo == null) { //si no tiene hijos es el primero
-            nodoPadre.primerHijo = nuevoHijo;
+        NodoGenerico<T> nuevoHijo = new NodoGenerico<>(hijo);
+        if (nodoPadre.primerHijo == null) {
+            nodoPadre.primerHijo = nuevoHijo; // si no tiene hijos, el nuevo hijo es el primer hijo
+            return true;
+        } else {
+            NodoGenerico<T> ultimoHijo = nodoPadre.primerHijo;
+            while (ultimoHijo.hermanoDerecho != null) {
+                ultimoHijo = ultimoHijo.hermanoDerecho; // recorremos los hermanos hasta el último
+            }
+            ultimoHijo.hermanoDerecho = nuevoHijo; // agregamos el nuevo hijo al final de los hijos
             return true;
         }
-
-        NodoGenerico<T> ultimoHijo =nodoPadre.primerHijo;
-
-        while (ultimoHijo.hermanoDerecho!= null) { //recorro los hijos hasta el ultimo
-            ultimoHijo =ultimoHijo.hermanoDerecho;
-        }
-        ultimoHijo.hermanoDerecho =nuevoHijo; //agrego el nuevo hijo al final de los hermanos
-        return true;
     }
 
     @Override
     public int altura() {
-        if (primerHijo == null) { //si no tiene hijos la altura es 0
-            return 0;
+        if (primerHijo == null) {
+            return 0; // si no tiene hijos, la altura es 0
         }
-        int max = 0;
-        NodoGenerico<T> hijo =primerHijo;
+        int altura = 0;
+        NodoGenerico<T> hijo = primerHijo;
         while (hijo != null) {
-            max = Math.max(max,hijo.altura());
-            hijo = hijo.hermanoDerecho;
+            altura = Math.max(altura, hijo.altura()); // calculamos la altura de cada hijo y nos quedamos con la máxima
+            hijo = hijo.hermanoDerecho; // recorremos los hermanos
         }
-        return max + 1;
+        return altura + 1; // sumamos 1 para contar el nivel de este nodo
     }
 
     @Override
     public TNodoGenerico<T> buscar(Comparable<T> criterio) {
-        if (criterio.compareTo(dato) == 0) { // si es este, lo devuelvo
+        if (criterio.compareTo(this.dato) == 0) { //si es este lo devuelvo
             return this;
         }
-        NodoGenerico<T> hijo =primerHijo;
-        while (hijo != null) { // recorro los hijos
-            TNodoGenerico<T> encontrado =hijo.buscar(criterio);
-            if (encontrado != null) {
-                return encontrado; // si encuentro devuelvo
+        NodoGenerico<T> hijo = primerHijo;
+        while (hijo != null) { //mientras tenga hijos busco en cada uno
+            TNodoGenerico<T> encontrado = hijo.buscar(criterio);
+            if (encontrado != null) { 
+                return encontrado;
             }
-            hijo = hijo.hermanoDerecho;
+            hijo =hijo.hermanoDerecho; //recorro los hermanos
         }
         return null;
     }
 
     @Override
     public TNodoGenerico<T> eliminar(Comparable<T> criterio) {
-        
-        if (primerHijo == null) { // si no tiene hijos no elimino nada
-            return null;
+        if (primerHijo == null) {
+            return null; // si no tiene hijos, no hay nada que eliminar
         }
-
-        if (criterio.compareTo(primerHijo.getDato()) == 0) { // si es el primer hijo
-
-            TNodoGenerico<T> eliminado =primerHijo;
-            primerHijo =primerHijo.hermanoDerecho;
-            eliminado.vaciar(); //desconecto
+        if (criterio.compareTo(primerHijo.getDato()) == 0) { //si es el primer hijo
+            TNodoGenerico<T> eliminado = primerHijo;
+            primerHijo = primerHijo.hermanoDerecho; //el nuevo primer hijo es el hermano derecho del eliminado
+            eliminado.hermanoDerecho = null; // lo desconectamos
             return eliminado;
         }
-
-        
-        NodoGenerico<T> hijo =primerHijo;
-        while (hijo.hermanoDerecho!= null) { //recorro los hermanos
-
-            if (criterio.compareTo(hijo.hermanoDerecho.getDato()) == 0) {
-
-                TNodoGenerico<T> eliminado =hijo.hermanoDerecho;
-                hijo.hermanoDerecho =hijo.hermanoDerecho.hermanoDerecho;
-                eliminado.vaciar(); //desconecto
+        NodoGenerico<T> hijo = primerHijo;
+        while (hijo.hermanoDerecho != null) { //mientras tenga hermanos busco en cada uno
+            if (criterio.compareTo(hijo.hermanoDerecho.getDato()) == 0) { //si es el hermano derecho
+                TNodoGenerico<T> eliminado = hijo.hermanoDerecho;
+                hijo.hermanoDerecho = hijo.hermanoDerecho.hermanoDerecho; //el nuevo hermano derecho es el hermano derecho del eliminado
+                eliminado.hermanoDerecho = null; // lo desconectamos
                 return eliminado;
             }
-            hijo = hijo.hermanoDerecho;
+            hijo = hijo.hermanoDerecho; //recorro los hermanos
         }
-
         hijo = primerHijo;
-        while (hijo != null) { // recorro los hijos
-            TNodoGenerico<T> encontrado =hijo.eliminar(criterio);
+        while (hijo != null) { //mientras tenga hijos busco en cada uno
+            TNodoGenerico<T> encontrado = hijo.eliminar(criterio);
             if (encontrado != null) {
                 return encontrado;
             }
-            hijo = hijo.hermanoDerecho;
+            hijo = hijo.hermanoDerecho; //recorro los hermanos
         }
-
-        return null;
+        return null; // si no encontramos el nodo a eliminar, devolvemos null
     }
 
     @Override
@@ -124,129 +112,78 @@ public class NodoGenerico<T extends Comparable<T>> implements TNodoGenerico<T> {
         NodoGenerico<T> hijo = primerHijo;
         while (hijo != null) {
             grado++;
-            hijo = hijo.hermanoDerecho;
+            hijo = hijo.hermanoDerecho; //recorro los hermanos para contar cuantos hijos tiene
         }
         return grado;
     }
 
     @Override
     public void inOrden(Consumer<TNodoGenerico<T>> consumidor) {
-         if (primerHijo != null) {
-            primerHijo.inOrden(consumidor); // recorro el primer hijo primero
-            consumidor.accept(this); // dsp proceso el nodo actual
-            NodoGenerico<T> hermano =primerHijo.hermanoDerecho;
+        if (primerHijo != null) {
+            primerHijo.inOrden(consumidor); //primero procesamos el primer hijo
+            consumidor.accept(this); //despues procesamos este
+            NodoGenerico<T> hermano = primerHijo.hermanoDerecho;
             while (hermano != null) {
-                hermano.inOrden(consumidor); // recorro los hermanos
-                hermano =hermano.hermanoDerecho;
+                hermano.inOrden(consumidor); //despues procesamos los hermanos
+                hermano = hermano.hermanoDerecho; //recorremos los hermanos
             }
-        } else {
-            consumidor.accept(this); // si no tiene hijos proceso el nodo actual
+        }
+        else {
+            consumidor.accept(this); //si no tiene hijos, procesamos este
         }
     }
 
     @Override
     public List<T> obtenerHijos() {
-        List<T> hijos =new LinkedList<>(); // usamos el de java por la firma del método
-        NodoGenerico<T> hijo =primerHijo;
+        List<T> hijos = new ListaEnlazada<>();
+        NodoGenerico<T> hijo = primerHijo;
         while (hijo != null) {
-            hijos.add(hijo.getDato());
-            hijo = hijo.hermanoDerecho;
+            hijos.add(hijo.getDato()); //agrego el dato del hijo a la lista
+            hijo = hijo.hermanoDerecho; //recorro los hermanos 
         }
         return hijos;
     }
 
     @Override
     public TNodoGenerico<T> obtenerPadre(Comparable<T> criterio) {
-        NodoGenerico<T> hijo =primerHijo;
-
-        while (hijo != null) { // recorro los hijos
-            if (criterio.compareTo(hijo.getDato()) == 0) { // si es este, lo devuelvo
+        NodoGenerico<T> hijo= primerHijo;
+        while (hijo != null) {
+            if (criterio.compareTo(hijo.getDato()) == 0) { //si el hijo es el que buscamos, devolvemos este nodo como padre
                 return this;
             }
-            TNodoGenerico<T> encontrado =hijo.obtenerPadre(criterio);
-            if (encontrado != null) { // si encuentro devuelvo
-                return encontrado;
+            TNodoGenerico<T> encontrado = hijo.obtenerPadre(criterio); //buscamos en los hijos
+            if (encontrado != null) {
+                return encontrado; //si lo encontramos, lo devolvemos
             }
-            hijo = hijo.hermanoDerecho;
+            hijo = hijo.hermanoDerecho; //recorremos los hermanos
         }
-        return null;
+        return null; //si no lo encontramos, devolvemos null
     }
 
     @Override
     public void postOrden(Consumer<TNodoGenerico<T>> consumidor) {
-        
         NodoGenerico<T> hijo = primerHijo;
         while (hijo != null) {
-            hijo.postOrden(consumidor); // recorro los hijos primero
-            hijo = hijo.hermanoDerecho;
+            hijo.postOrden(consumidor); //primero procesamos este
+            hijo = hijo.hermanoDerecho; //recorremos los hermanos
         }
-        consumidor.accept(this); // dsp proceso el nodo actual
-        
+        consumidor.accept(this); //dsp procesamos este
     }
 
     @Override
     public void preOrden(Consumer<TNodoGenerico<T>> consumidor) {
-        consumidor.accept(this); // proceso el nodo actual primero
-        NodoGenerico<T> hijo =primerHijo;
+        consumidor.accept(this); //primero procesamos este
+        NodoGenerico<T> hijo = primerHijo;
         while (hijo != null) {
-            hijo.preOrden(consumidor); // recorro los hijos
-            hijo = hijo.hermanoDerecho;
+            hijo.preOrden(consumidor); //dsp procesamos los hijos
+            hijo = hijo.hermanoDerecho; //recorremos los hermanos
         }
     }
 
     @Override
-    public void vaciar() {
+    public void vaciar() { //lo desconecto
         primerHijo = null;
         hermanoDerecho = null;
     }
-
-
-    //extras usados en el ejercicio 16
-
-    // cuenta la cantidad de nodos que hay en el subarbol del nodo actual
-    public int contarNodos() {
-        int total = 1; //cuento el nodo actual
-        NodoGenerico<T> hijo =primerHijo;
-        while (hijo != null) { // recorro los hijos y sumo sus nodos
-            total += hijo.contarNodos();
-            hijo = hijo.hermanoDerecho;
-        }
-        return total;
-    }
-    
-    //crea una lista con los nodos que forman el camino desde el nodo actual hasta el nodo buscado, devuelve true si lo encuentra
-    public boolean obtenerCamino(Comparable<T> buscado,List<NodoGenerico<T>> camino) {
-
-        camino.add(this); //agrego el nodo actual al camino
-
-        if (buscado.compareTo(dato) == 0) { //si es este lo devuelvo
-            return true;
-        }
-        NodoGenerico<T> hijo =primerHijo;
-
-        while (hijo != null) { //recorro los hijos
-            if (hijo.obtenerCamino(buscado,camino)) {
-                return true;
-            }
-            hijo = hijo.hermanoDerecho;
-        }
-        camino.remove(camino.size() - 1); //si no lo encontre en este nodo ni en sus hijos, lo saco del camino
-        return false; //no lo encontre
-    } 
-
-    //crea una lista de los nodos que estan en el nivel objetivo, actual es el nivel del nodo actual
-    public void obtenerNivel(int objetivo,int actual,List<T> lista) {
-
-        if (actual == objetivo) {
-            lista.add(dato);
-            return;
-        }
-        NodoGenerico<T> hijo =primerHijo;
-        while (hijo != null) {
-            hijo.obtenerNivel(objetivo,actual + 1,lista);
-            hijo = hijo.hermanoDerecho;
-        }
-    }
-
     
 }
