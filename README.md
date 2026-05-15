@@ -1,11 +1,14 @@
-#Ejercicio 5
+# Ejercicio 5
 Describir en lenguaje natural, pre y post condiciones, seudocódigo de las operaciones y análisis
 de ordenes de las siguientes operaciones del Trie y NodoTrie:
-##1. Operación buscar palabra completa.
-###Lenguaje natural: se recorre el Trie caracter por caracter según la conformacion de la palabra. Si algún caractér de la palabra no existe entonces la palabra no está en el trie. Si el recorrido termina y la palabra se formó correctamente entonces la palabra si existe.
-###Precondiciones: el trie ecxiste y es válido y la palabra no es null.
-###Postcondiciones: devuelve una Entry<T> asociada si la palabra existe y null si no existe. No modifica el trie original.
-###Pseudocódigo:
+## 1. Operación buscar palabra completa.
+### Lenguaje natural
+Se recorre el Trie caracter por caracter según la conformacion de la palabra. Si algún caractér de la palabra no existe entonces la palabra no está en el trie. Si el recorrido termina y la palabra se formó correctamente entonces la palabra si existe.
+### Precondiciones:
+El trie ecxiste y es válido y la palabra no es null.
+### Postcondiciones:
+Devuelve una Entry<T> asociada si la palabra existe y null si no existe. No modifica el trie original.
+### Pseudocódigo:
 Trie: 
    func buscar(palabra):
     if raiz = null: //si esta vacío no busco nda
@@ -30,13 +33,17 @@ NodoTrie:
     end if
     return null
 end buscar
-###Complejidad: o(m) siendo m la longitud de la palabra.  
+### Complejidad:
+o(m) siendo m la longitud de la palabra.  
 
-##2. Obtener la lista de palabras por un prefijo dado.
-###Lenguaje natural: se busca el nodo que corresponde al último caracter del prefijo y luego se recorren todos los subárboles (descencientes) para poder obtener todas las palabras que arrancan con ese prefijo dado.
-###Precondiciones:el trie existe y es válido, el prefijo no es null.
-###Postcondiciones: retorna una lista con las palabras que comienzan con ese prefijo y el trie se mantiene igual, no se modifica.
-###Pseudocódigo:
+## 2. Obtener la lista de palabras por un prefijo dado.
+### Lenguaje natural: 
+Se busca el nodo que corresponde al último caracter del prefijo y luego se recorren todos los subárboles (descencientes) para poder obtener todas las palabras que arrancan con ese prefijo dado.
+### Precondiciones:
+El trie existe y es válido, el prefijo no es null.
+### Postcondiciones:
+Retorna una lista con las palabras que comienzan con ese prefijo y el trie se mantiene igual, no se modifica.
+### Pseudocódigo:
 Trie:
 func listarPrefijo(prefijo)
     if raiz = null then //si esta vacío no hay palabras 
@@ -74,13 +81,17 @@ proc obtenerPalabras(palabraActual,lista)
     end for
 end proc
 
-###Complejidad: o(m+n) donde m es la longitud del prefijo mientras que n es la cantidad de nodos recorridos.
+### Complejidad:
+o(m+n) donde m es la longitud del prefijo mientras que n es la cantidad de nodos recorridos.
 
-##3. Insertar una palabra con un dato asociado.
-###Lenguaje natural: se recorre el trie caracter por caracter. En el caso de que algun nodo no exista, se crea. Al llegar al último nodo se marca la palabra como válida (el nodo final también) y se guarda el dato asociado.
-###Precondiciones: el trie debe ser valido y existir, la palabra no debe de ser null.
-###Postcondiciones: la palabra se agrega al trie, el dato asociado se guarda, retorna true si insertó y false si no.
-###Pseudocódigo:
+## 3. Insertar una palabra con un dato asociado.
+### Lenguaje natural:
+Se recorre el trie caracter por caracter. En el caso de que algun nodo no exista, se crea. Al llegar al último nodo se marca la palabra como válida (el nodo final también) y se guarda el dato asociado.
+### Precondiciones: 
+El trie debe ser valido y existir, la palabra no debe de ser null.
+### Postcondiciones: 
+La palabra se agrega al trie, el dato asociado se guarda, retorna true si insertó y false si no.
+### Pseudocódigo:
 Trie:
 func insertar(palabra, dato)
     if raiz = null then //si esta vacío creamos la raiz nueva
@@ -107,13 +118,17 @@ func insertar(palabra, dato)
     nodoActual.dato ← dato
     return true
 end insertar
-###Complejidad: o(m) siendo m la longitud de la palabra
+### Complejidad: 
+o(m) siendo m la longitud de la palabra
 
-##4. Eliminar una palabra del Trie.
-###Lenguaje natural: se eliminan de manera recursiva los nodos que ya no pertenezcan a ninguna otra palabra del trie.
-###Precondiciones: trie existente y válido, palabra diferente de null.
-###Postcondiciones:la palabra deja de existir en el trie, no se eliminan nodos que pertenezcan a otras palabras.
-###Pseudocódigo:
+## 4. Eliminar una palabra del Trie.
+### Lenguaje natural: 
+Se eliminan de manera recursiva los nodos que ya no pertenezcan a ninguna otra palabra del trie.
+### Precondiciones: 
+Trie existente y válido, palabra diferente de null.
+### Postcondiciones:
+La palabra deja de existir en el trie, no se eliminan nodos que pertenezcan a otras palabras.
+### Pseudocódigo:
 Trie:
 func eliminar(palabra)
     if raiz = null then //si esta vacío no elimino nada
@@ -145,4 +160,4 @@ func eliminar(palabra, indice)
     return false
 end eliminar
 
-###Complejidad: o(m) siendo m la longitud de la palabra.
+### Complejidad: o(m) siendo m la longitud de la palabra.
