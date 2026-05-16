@@ -1,0 +1,16 @@
+
+1- ¿Qué atributo define la identidad lógica?
+La identidad lógica de un libro debería estar determinada por el atributo ISBN, 
+ya que este representa un identificador único internacional para cada libro o edición. 
+Dos objetos Libro con el mismo ISBN representan el mismo libro, incluso si otros atributos como título, 
+autor o año presentan diferencias.
+
+3- ¿Que pasa si equals usa isbn y hashcode usa titulo?
+Si equals compara libros usando ISBN pero hashCode utiliza título, dos objetos podrían ser considerados 
+iguales por equals pero producir códigos hash diferentes. Esto rompe el contrato general de Java, que establece 
+que objetos iguales deben tener el mismo hashCode. Como consecuencia, estructuras como HashSet o HashMap podrían 
+almacenar duplicados o fallar en búsquedas.
+
+5- ¿Qué debería de pasar en HasSet si equals y hashcode están implementados correctamente?
+Si equals y hashCode están correctamente implementados, el HashSet debería almacenar solamente uno de los dos objetos, 
+ya que ambos representan el mismo libro según su ISBN.
