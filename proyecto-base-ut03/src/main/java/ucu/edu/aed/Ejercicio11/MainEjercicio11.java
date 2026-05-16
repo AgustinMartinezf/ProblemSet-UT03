@@ -11,5 +11,7 @@ public class MainEjercicio11 {
         contador.contarPalabras();
 
         contador.mostrarFrecuencias();
+
+        contador.mostrarTop10();
     }
 }
