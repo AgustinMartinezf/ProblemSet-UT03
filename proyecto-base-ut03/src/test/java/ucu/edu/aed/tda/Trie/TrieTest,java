@@ -1,0 +1,73 @@
+package ucu.edu.aed.tda.trie;
+
+import java.util.List;
+
+public class TrieTest {
+
+    public static void main(String[] args) {
+        testInsertarPalabraNueva();
+        testInsertarPalabraDuplicada();
+        testBuscarPalabraExistente();
+        testBuscarPalabraInexistente();
+        testBuscarPrefijoParcial();
+        testBuscarCaseInsensitive();
+        testPredecir();
+        System.out.println("Todos los tests pasaron.");
+    }
+
+    private static void testInsertarPalabraNueva() {
+        Trie<Integer> trie = new Trie<>();
+        boolean resultado = trie.insertar("casa", 1);
+        assert resultado : "Deberia insertar 'casa' correctamente";
+    }
+
+    private static void testInsertarPalabraDuplicada() {
+        Trie<Integer> trie = new Trie<>();
+        trie.insertar("casa", 1);
+        boolean resultado = trie.insertar("casa", 2);
+        assert !resultado : "No deberia insertar 'casa' dos veces";
+    }
+
+    private static void testBuscarPalabraExistente() {
+        Trie<Integer> trie = new Trie<>();
+        trie.insertar("casa", 42);
+        Entry<Integer> entrada = trie.buscar("casa");
+        assert entrada != null : "Deberia encontrar 'casa'";
+        assert entrada.esPalabra() : "Deberia ser palabra completa";
+        assert entrada.getDato().equals(42) : "El dato deberia ser 42";
+    }
+
+    private static void testBuscarPalabraInexistente() {
+        Trie<Integer> trie = new Trie<>();
+        trie.insertar("casa", 1);
+        Entry<Integer> entrada = trie.buscar("perro");
+        assert entrada == null : "No deberia encontrar 'perro'";
+    }
+
+    private static void testBuscarPrefijoParcial() {
+        Trie<Integer> trie = new Trie<>();
+        trie.insertar("casa", 1);
+        Entry<Integer> entrada = trie.buscar("cas");
+        assert entrada != null : "Deberia encontrar el prefijo 'cas'";
+        assert !entrada.esPalabra() : "El prefijo 'cas' no deberia ser palabra completa";
+    }
+
+    private static void testBuscarCaseInsensitive() {
+        Trie<Integer> trie = new Trie<>();
+        trie.insertar("Casa", 1);
+        Entry<Integer> entrada = trie.buscar("casa");
+        assert entrada != null : "La busqueda deberia ser case-insensitive";
+        assert entrada.esPalabra() : "Deberia ser palabra completa";
+    }
+
+    private static void testPredecir() {
+        Trie<Integer> trie = new Trie<>();
+        trie.insertar("casa", 1);
+        trie.insertar("casamiento", 2);
+        trie.insertar("casilla", 3);
+        trie.insertar("perro", 4);
+
+        List<Entry<Integer>> predicciones = trie.predecir("cas");
+        assert predicciones.size() == 3 : "Deberia predecir 3 palabras con prefijo 'cas'";
+    }
+}
