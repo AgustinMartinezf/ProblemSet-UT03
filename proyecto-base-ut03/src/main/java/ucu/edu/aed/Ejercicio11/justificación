@@ -1,0 +1,17 @@
+Se selecciona la clase HashMap de la API de colecciones de java porquie
+permite almacenar pares clave-valor de manera eficiones
+
+En este problema, la clave correspondiente a cada palabra del texto y 
+el valor representa la cantidad de veces que aparece.
+
+HashMap permite realizar operaciones de búsqueda, insercion y actualización
+en tiempo promedio O(1), lo que lo hace adecuado para procesar grandes
+volúmenes de texto.
+
+Ademas, evita recorrer estructuras lineales completas para encontrar palabras
+repetidas, mejorando significativamente la eficiencia respecto a listas o 
+arreglos.
+
+Para obtener las palabras más frecuentes se utiliza una lista auxiliar 
+basada en ArrayList, permitiendo obtener los elementos por frecuencia y 
+seleccionar las primeras 10 ocurrencias
