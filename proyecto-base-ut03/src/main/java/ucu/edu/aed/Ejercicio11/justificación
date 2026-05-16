@@ -11,3 +11,7 @@ volúmenes de texto.
 Ademas, evita recorrer estructuras lineales completas para encontrar palabras
 repetidas, mejorando significativamente la eficiencia respecto a listas o 
 arreglos.
+
+Para obtener las palabras más frecuentes se utiliza una lista auxiliar 
+basada en ArrayList, permitiendo obtener los elementos por frecuencia y 
+seleccionar las primeras 10 ocurrencias
