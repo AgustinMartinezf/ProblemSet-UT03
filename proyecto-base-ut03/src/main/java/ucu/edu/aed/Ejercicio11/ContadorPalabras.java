@@ -53,6 +53,8 @@ public class ContadorPalabras {
     public void mostrarFrecuencias() {
 
         System.out.println(frecuencias);
+
     }
+// hola :p
 
 }
